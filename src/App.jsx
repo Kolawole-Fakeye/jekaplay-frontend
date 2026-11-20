@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // Color Palette matching Jekaplay / Fillup UI
 // Primary Dark: #0d2315 | Lime Accent: #d4f266 | Card Cream: #f6f0e2 | Coral Alert: #f26a5a
 
-const BACKEND_URL = 'https://jekaplay-backend.onrender.com'; // Adjust after Render deploy
+const BACKEND_URL = 'https://jekaplay-backend.onrender.com'; Adjust after Render deploy
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('order'); // 'order', 'variance', 'inventory', 'crm', 'whatsapp'
