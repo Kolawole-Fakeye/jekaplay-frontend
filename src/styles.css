@@ -88,3 +88,43 @@ label { display: block; color: var(--mu); font-size: 13px; font-weight: 600; mar
 .center { text-align: center; color: var(--mu); padding: 40px 10px; }
 .shake { animation: shake 0.35s; }
 @keyframes shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+
+.stack { display: grid; gap: 12px; text-align: left; }
+.stack .h1, .stack .sub { text-align: center; }
+.back, .link { background: none; border: 0; color: var(--mu); font-weight: 700; padding: 8px; display: inline-flex; align-items: center; gap: 6px; justify-self: start; }
+.link { color: var(--acc); justify-self: center; margin-top: 4px; }
+.login .back { justify-self: start; }
+.pad button.go { background: var(--pri); border-color: var(--pri); color: var(--on); }
+.pad button.go:disabled { opacity: 0.35; }
+.check { display: flex; gap: 10px; align-items: flex-start; color: var(--tx); font-size: 14px; margin: 4px 0; }
+.check input { width: 22px; height: 22px; margin: 0; flex: none; accent-color: var(--pri); }
+.outlet { width: 100%; display: flex; align-items: center; gap: 14px; text-align: left; background: var(--s1); border: 1px solid var(--bd); border-radius: 24px; padding: 20px; margin: 10px 0; font-size: 17px; box-shadow: var(--shadow); }
+.outlet > svg { color: var(--acc); flex: none; }
+.outlet > span { flex: 1; }
+.offer { background: linear-gradient(160deg, var(--pri), #004d2c); color: #fff; border-radius: 28px; padding: 22px; margin-top: 8px; box-shadow: var(--shadow); }
+.offer .h1 b { color: #d9ffd9; }
+.offer .sub { color: #d6efe0; }
+.offer .btn { background: #fff; color: #004d2c; }
+.offer .btn.ghost { background: transparent; border: 1px solid rgba(255, 255, 255, 0.5); color: #fff; }
+.offer .badge.go { background: rgba(255, 255, 255, 0.2); margin-bottom: 10px; }
+
+.legal-p { color: var(--mu); font-size: 14px; line-height: 1.6; margin: 0 0 8px; }
+.legal-links { display: flex; justify-content: center; gap: 4px; margin-top: 10px; }
+.legal-links .link { color: var(--mu); font-size: 13px; margin: 0; }
+.link.inline { padding: 0; display: inline; font-size: inherit; }
+a.chip { text-decoration: none; text-align: center; flex: 1; color: var(--tx); }
+a.chip.on { color: var(--on); }
+
+.legal-links { display: flex; justify-content: center; gap: 10px; padding: 22px 0 6px; font-size: 13px; color: var(--mu); }
+.legal-links a, .legal a, .login a { color: var(--acc); font-weight: 700; text-decoration: none; }
+.legal-overlay { position: fixed; inset: 0; z-index: 100; overflow: auto; background: var(--bg); color: var(--tx); }
+.legal { max-width: 720px; margin: 0 auto; padding: 14px 18px 60px; }
+.legal-logo { display: block; height: 44px; margin: 4px 0 12px; }
+.legal-sec { margin: 22px 0; }
+.legal-sec h2 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+.legal p, .legal li { color: var(--tx); opacity: 0.92; }
+.legal ul { padding-left: 20px; margin: 6px 0; display: grid; gap: 6px; }
+.legal .card h2 { font-size: 17px; margin-bottom: 4px; }
+.contact-line { display: flex; gap: 14px; align-items: center; padding: 12px 0; border-top: 1px solid var(--bd); color: var(--tx); text-decoration: none; }
+.contact-line svg { color: var(--acc); flex: none; }
+.legal-switch { text-align: center; margin-top: 24px; }
