@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { ShoppingBag, ReceiptText, LogOut, Sun, Moon } from 'lucide-react';
 import { api, getSession, onSession, logout } from './api.js';
-import { Login, SetPin } from './Login.jsx';
+import { Auth, SetPin } from './Login.jsx';
+import { LegalPage } from './Legal.jsx';
+import CustomerApp from './CustomerApp.jsx';
 import TakeOrder from './TakeOrder.jsx';
 import MySales from './MySales.jsx';
 
 const ROLE_LABEL = { owner: 'Overall admin', admin: 'Admin', supervisor: 'Supervisor', staff: 'Staff' };
 
-export default function App() {
+function Main() {
   const [session, setSession] = useState(getSession());
   const [me, setMe] = useState(null);
   const [theme, setTheme] = useState(() => localStorage.getItem('jekaplay_theme') || 'dark');
@@ -41,18 +43,10 @@ export default function App() {
     return () => clearTimeout(t);
   }, [toast]);
 
-  if (!session) return <Login theme={theme} />;
+  if (!session) return <Auth theme={theme} />;
   if (!me) return <div className="center" style={{ paddingTop: '40vh' }}>Loading…</div>;
   if (me.must_change_pin) return <SetPin onDone={() => setMe({ ...me, must_change_pin: false })} />;
-  if (me.role === 'customer') {
-    return (
-      <div className="login">
-        <h1 className="h1">This is the <b>staff app</b></h1>
-        <p className="sub">The customer ordering site is coming soon.</p>
-        <button className="btn ghost" onClick={logout}>Log out</button>
-      </div>
-    );
-  }
+  if (me.role === 'customer') return <CustomerApp me={me} theme={theme} setTheme={setTheme} />;
 
   const branch = branches.find((b) => b.id === branchId);
   const logo = theme === 'light' ? '/jekaplay-wordmark-black.png' : '/jekaplay-wordmark-green.png';
@@ -90,5 +84,21 @@ export default function App() {
         </div>
       </nav>
     </div>
+  );
+}
+
+export default function App() {
+  const [hash, setHash] = useState(window.location.hash);
+  useEffect(() => {
+    const on = () => setHash(window.location.hash);
+    window.addEventListener('hashchange', on);
+    return () => window.removeEventListener('hashchange', on);
+  }, []);
+  const page = hash === '#/terms' ? 'terms' : hash === '#/contact' ? 'contact' : null;
+  return (
+    <>
+      <Main />
+      {page && <LegalPage page={page} theme={document.documentElement.dataset.theme || 'dark'} />}
+    </>
   );
 }
