@@ -1,0 +1,209 @@
+import { ArrowLeft, Phone, Mail, MapPin, Clock, AtSign } from 'lucide-react';
+import { company as c } from './config.js';
+
+const P = c.platform.name;
+const J = c.restaurant.name;
+
+export function LegalLinks() {
+  return (
+    <footer className="legal-links">
+      <a href="#/terms">Terms &amp; Conditions</a><span>·</span><a href="#/contact">Contact us</a>
+    </footer>
+  );
+}
+
+function Sec({ n, title, children }) {
+  return (
+    <section className="legal-sec">
+      <h2>{n}. {title}</h2>
+      {children}
+    </section>
+  );
+}
+
+function Terms() {
+  return (
+    <>
+      <div className="eyebrow">Legal</div>
+      <h1 className="h1">Terms &amp; <b>Conditions</b></h1>
+      <p className="mu">Last updated {c.termsUpdated}</p>
+
+      <Sec n="1" title="Who we are">
+        <ul>
+          <li>This ordering app (the “App”) is owned and operated by <b>{P}</b>{c.platform.registration ? ` (${c.platform.registration})` : ''} (“{P}”, “we”, “us”). {P} is the primary company responsible for the App itself.</li>
+          <li>The food, drinks and outlets you order from are run by <b>{c.restaurant.legalName || J}</b> (“{J}”). {J} is responsible for the food and for your orders, as set out in section 3.</li>
+          <li>By creating an account or placing an order you agree to these Terms. If you do not agree, please do not use the App.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="2" title="Your account">
+        <ul>
+          <li>You must be 18 or older, or have a parent or guardian’s permission.</li>
+          <li>Use a WhatsApp number that belongs to you, and keep your details correct.</li>
+          <li>Your PIN is personal to you. Do not share it. Tell us straight away if you think someone else knows it.</li>
+          <li>One account per person. We may suspend or close an account that is misused, used for fake or fraudulent orders, or created with false details.</li>
+          <li>You can ask us to delete your account at any time (see section 10).</li>
+        </ul>
+      </Sec>
+
+      <Sec n="3" title="Who is responsible for what">
+        <p><b>{J} is responsible for:</b></p>
+        <ul>
+          <li>Preparing the food and drinks, and their quality, freshness and safety.</li>
+          <li>The menu, prices, availability, offers, rewards and vouchers.</li>
+          <li>Accepting, preparing and handing over your order at its outlets.</li>
+          <li>Cancellations, replacements, refunds and complaints about your order.</li>
+          <li>Allergen information, and the conduct of its staff and outlets.</li>
+        </ul>
+        <p><b>{P} is responsible for:</b></p>
+        <ul>
+          <li>Running and securing the App, and protecting your account and personal information.</li>
+          <li>Login and PIN support, and technical help with the App.</li>
+          <li>Passing your order to {J} correctly.</li>
+        </ul>
+        <p>{P} does not prepare or sell food and is not responsible for the food, the outlets or {J}’s decisions. If there is a problem with an order, contact {J} first using the <a href="#/contact">Contact us</a> page.</p>
+      </Sec>
+
+      <Sec n="4" title="Placing orders">
+        <ul>
+          <li>Your order is a request to buy. The outlet may decline it, for example if an item has run out. If that happens you will be told and you will not pay for that item.</li>
+          <li>Prices are in Nigerian naira (₦) and are shown before you confirm. {J} may change prices, menus and availability at any time. Changes do not affect orders already placed.</li>
+          <li>For pick-up and eat-in orders, please collect your order when it is ready. {J} may cancel an order that is not collected within a reasonable time.</li>
+          <li>Delivery is only available where an outlet offers it, in approved areas, with the delivery fee shown at checkout.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="5" title="Payment">
+        <ul>
+          <li>Until online payment is switched on, you pay at the outlet when you collect your order.</li>
+          <li>When online payment is available, it is handled by {J}’s licensed payment provider. We do not store your card details.</li>
+          <li>You will get a receipt on WhatsApp or in the App.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="6" title="Offers, rewards and vouchers">
+        <ul>
+          <li>Offers such as the ₦1,000 meal with free beef are set by {J}. They apply while stocks last and may change or end.</li>
+          <li>Reward points and vouchers have no cash value and cannot be transferred. {J} may set limits and expiry dates, and may withdraw rewards that were obtained through misuse.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="7" title="Cancellations, refunds and complaints">
+        <ul>
+          <li>Once the kitchen has started preparing an order it may not be possible to cancel it. Please speak to outlet staff straight away.</li>
+          <li>If something is wrong, such as a missing item, the wrong order or a quality or safety problem, tell {J} {c.reportWindow}. {J} will decide on a replacement, correction or refund fairly and in line with consumer protection law. Your legal rights are not affected by these Terms.</li>
+          <li>We may ask how your experience was. If you tell us it was not good, your message goes to {J}’s management so it can be dealt with quickly.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="8" title="Food safety and allergies">
+        <p>Our kitchens handle common allergens. Please tell staff about any allergy before you order. {J} cannot guarantee that any item is free of allergens.</p>
+      </Sec>
+
+      <Sec n="9" title="Messages and WhatsApp">
+        <ul>
+          <li>We send you service messages about your order, such as confirmation, status updates and receipts.</li>
+          <li>We send offers and rewards messages only if you agreed to them. You can stop them at any time by replying STOP or by contacting us.</li>
+          <li>Your network or WhatsApp data charges may apply.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="10" title="Your information">
+        <ul>
+          <li>{P} and {J} use your name, WhatsApp number, order history and preferences to run your account, process orders, send receipts, provide rewards, improve our service and prevent fraud. Your PIN is stored in a protected form that we cannot read.</li>
+          <li>We handle personal information in line with the Nigeria Data Protection Act 2023. We do not sell your personal information.</li>
+          <li>You can ask to see, correct or delete your information, or withdraw your consent, at any time through the <a href="#/contact">Contact us</a> page. We may need to keep some records where the law requires it.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="11" title="Acceptable use">
+        <p>Do not place fake orders, abuse staff, try to access other people’s accounts, interfere with the App or its security, use bots, or resell offers.</p>
+      </Sec>
+
+      <Sec n="12" title="Ownership">
+        <p>The App’s software and design belong to {P}. The {J} name, logo and menu belong to {J}. Please do not copy them without permission.</p>
+      </Sec>
+
+      <Sec n="13" title="Availability of the App">
+        <p>We work to keep the App available, but we cannot promise it will never be interrupted. We may carry out maintenance, and we may change or remove features.</p>
+      </Sec>
+
+      <Sec n="14" title="Liability">
+        <ul>
+          <li>Nothing in these Terms limits any liability that cannot be limited by law, including your statutory consumer rights.</li>
+          <li>{J} is responsible to you for the food and for your orders, as described in section 3.</li>
+          <li>{P} is not liable for the food, the outlets or {J}’s decisions. Neither of us is responsible for loss caused by events beyond our reasonable control, such as network failures or power cuts, or for indirect losses.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="15" title="Changes to these Terms">
+        <p>We may update these Terms. The “last updated” date above will change, and we will show important changes in the App. If you keep using the App after a change, you accept the updated Terms.</p>
+      </Sec>
+
+      <Sec n="16" title="Governing law">
+        <p>These Terms are governed by the laws of the Federal Republic of Nigeria, and the courts of Lagos State will deal with any dispute. We encourage you to contact us first so we can try to put things right.</p>
+      </Sec>
+
+      <Sec n="17" title="Contact us">
+        <p>See the <a href="#/contact">Contact us</a> page for how to reach {J} about your order and {P} about the App or your information.</p>
+      </Sec>
+    </>
+  );
+}
+
+function Line({ icon: Icon, label, href, children }) {
+  const inner = (<><Icon size={18} /><span><span className="mu">{label}</span><br /><b>{children}</b></span></>);
+  return href ? <a className="contact-line" href={href}>{inner}</a> : <div className="contact-line">{inner}</div>;
+}
+
+function Contact() {
+  const r = c.restaurant;
+  const p = c.platform;
+  return (
+    <>
+      <div className="eyebrow">We are here to help</div>
+      <h1 className="h1">Contact <b>us</b></h1>
+
+      <div className="card">
+        <h2>{J}: orders, food and outlets</h2>
+        <p className="mu">For anything about your order, your meal, refunds or an outlet.</p>
+        <Line icon={Phone} label="Call" href={`tel:${r.phoneIntl}`}>{r.phone}</Line>
+        {r.email && <Line icon={Mail} label="Email" href={`mailto:${r.email}`}>{r.email}</Line>}
+        {r.hours && <Line icon={Clock} label="Hours">{r.hours}</Line>}
+        <Line icon={AtSign} label="Social media and website">{r.handle} · {r.website}</Line>
+      </div>
+
+      <div className="card">
+        <h2>Our outlets</h2>
+        {c.outlets.map((o) => <Line key={o.name} icon={MapPin} label={'Jekaplay ' + o.name}>{o.address || 'Ask at the outlet or call us'}</Line>)}
+      </div>
+
+      <div className="card">
+        <h2>{P}: the app and your information</h2>
+        <p className="mu">For login or PIN help, problems with the app, or to see, correct or delete your information.</p>
+        {p.email && <Line icon={Mail} label="Email" href={`mailto:${p.email}`}>{p.email}</Line>}
+        {p.phone && <Line icon={Phone} label="Call or WhatsApp" href={`tel:${p.phone}`}>{p.phone}</Line>}
+        {p.address && <Line icon={MapPin} label="Address">{p.address}</Line>}
+        {!p.email && !p.phone && <p>Please speak to staff at any {J} outlet and they will pass your request to us.</p>}
+      </div>
+
+      <p className="mu">Reporting a problem with an order? Tell {J} {c.reportWindow}, and have your order number ready.</p>
+    </>
+  );
+}
+
+export function LegalPage({ page, theme }) {
+  const close = () => { window.location.hash = ''; };
+  return (
+    <div className="legal-overlay">
+      <div className="legal">
+        <button className="back" onClick={close}><ArrowLeft size={16} /> Back</button>
+        <img className="legal-logo" src={theme === 'light' ? '/jekaplay-wordmark-black.png' : '/jekaplay-wordmark-green.png'} alt="Jekaplay" />
+        {page === 'terms' ? <Terms /> : <Contact />}
+        <div className="legal-switch">
+          {page === 'terms' ? <a href="#/contact">Contact us</a> : <a href="#/terms">Terms &amp; Conditions</a>}
+        </div>
+      </div>
+    </div>
+  );
+}
