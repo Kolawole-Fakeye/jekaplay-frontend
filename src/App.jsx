@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { ShoppingBag, ReceiptText, LogOut, Sun, Moon } from 'lucide-react';
+import { ShoppingBag, ReceiptText, LogOut, Sun, Moon, ClipboardList, Users } from 'lucide-react';
 import { api, getSession, onSession, logout } from './api.js';
 import { Auth, SetPin } from './Login.jsx';
 import { LegalPage } from './Legal.jsx';
 import CustomerApp from './CustomerApp.jsx';
 import TakeOrder from './TakeOrder.jsx';
 import MySales from './MySales.jsx';
+import Board from './Board.jsx';
+import StaffCustomers from './StaffCustomers.jsx';
 
 const ROLE_LABEL = { owner: 'Overall admin', admin: 'Admin', supervisor: 'Supervisor', staff: 'Staff' };
 
@@ -15,7 +17,7 @@ function Main() {
   const [theme, setTheme] = useState(() => localStorage.getItem('jekaplay_theme') || 'dark');
   const [branches, setBranches] = useState([]);
   const [branchId, setBranchId] = useState('');
-  const [tab, setTab] = useState('order');
+  const [tab, setTab] = useState('board');
   const [toast, setToast] = useState('');
 
   useEffect(() => onSession(setSession), []);
@@ -45,11 +47,18 @@ function Main() {
 
   if (!session) return <Auth theme={theme} />;
   if (!me) return <div className="center" style={{ paddingTop: '40vh' }}>Loading…</div>;
-  if (me.must_change_pin) return <SetPin onDone={() => setMe({ ...me, must_change_pin: false })} />;
+  if (me.must_change_pin) return <SetPin digits={me.role === 'customer' ? 4 : 6} onDone={() => setMe({ ...me, must_change_pin: false })} />;
   if (me.role === 'customer') return <CustomerApp me={me} theme={theme} setTheme={setTheme} />;
 
   const branch = branches.find((b) => b.id === branchId);
   const logo = theme === 'light' ? '/jekaplay-wordmark-black.png' : '/jekaplay-wordmark-green.png';
+  const canHelp = ['owner', 'admin', 'supervisor'].includes(me.role);
+  const tabs = [
+    ['board', 'Orders', ClipboardList],
+    ['order', 'New order', ShoppingBag],
+    ['sales', 'My sales', ReceiptText],
+    ...(canHelp ? [['customers', 'Customers', Users]] : []),
+  ];
 
   return (
     <div className="app">
@@ -71,16 +80,21 @@ function Main() {
 
       {!branch ? (
         <div className="card center">You are not placed at an outlet yet. Ask the overall admin to place you.</div>
+      ) : tab === 'board' ? (
+        <Board branch={branch} role={me.role} onToast={setToast} />
       ) : tab === 'order' ? (
         <TakeOrder branch={branch} onToast={setToast} />
-      ) : (
+      ) : tab === 'sales' ? (
         <MySales />
+      ) : (
+        <StaffCustomers />
       )}
 
-      <nav className="nav">
+      <nav className="nav staffnav">
         <div>
-          <button className={tab === 'order' ? 'on' : ''} onClick={() => setTab('order')}><ShoppingBag size={20} />Take order</button>
-          <button className={tab === 'sales' ? 'on' : ''} onClick={() => setTab('sales')}><ReceiptText size={20} />My sales</button>
+          {tabs.map(([id, label, Icon]) => (
+            <button key={id} className={tab === id ? 'on' : ''} onClick={() => setTab(id)}><Icon size={24} />{label}</button>
+          ))}
         </div>
       </nav>
     </div>
@@ -94,7 +108,7 @@ export default function App() {
     window.addEventListener('hashchange', on);
     return () => window.removeEventListener('hashchange', on);
   }, []);
-  const page = hash === '#/terms' ? 'terms' : hash === '#/contact' ? 'contact' : null;
+  const page = { '#/terms': 'terms', '#/privacy': 'privacy', '#/contact': 'contact' }[hash] || null;
   return (
     <>
       <Main />
