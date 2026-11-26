@@ -7,7 +7,7 @@ const J = c.restaurant.name;
 export function LegalLinks() {
   return (
     <footer className="legal-links">
-      <a href="#/terms">Terms &amp; Conditions</a><span>·</span><a href="#/contact">Contact us</a>
+      <a href="#/terms">Terms</a><span>·</span><a href="#/privacy">Privacy</a><span>·</span><a href="#/contact">Contact us</a>
     </footer>
   );
 }
@@ -111,7 +111,7 @@ function Terms() {
       <Sec n="10" title="Your information">
         <ul>
           <li>{P} and {J} use your name, WhatsApp number, order history and preferences to run your account, process orders, send receipts, provide rewards, improve our service and prevent fraud. Your PIN is stored in a protected form that we cannot read.</li>
-          <li>We handle personal information in line with the Nigeria Data Protection Act 2023. We do not sell your personal information.</li>
+          <li>We handle personal information in line with the Nigeria Data Protection Act 2023. We do not sell your personal information. Our <a href="#/privacy">Privacy Policy</a> explains this in full.</li>
           <li>You can ask to see, correct or delete your information, or withdraw your consent, at any time through the <a href="#/contact">Contact us</a> page. We may need to keep some records where the law requires it.</li>
         </ul>
       </Sec>
@@ -146,6 +146,82 @@ function Terms() {
 
       <Sec n="17" title="Contact us">
         <p>See the <a href="#/contact">Contact us</a> page for how to reach {J} about your order and {P} about the App or your information.</p>
+      </Sec>
+    </>
+  );
+}
+
+
+function Privacy() {
+  return (
+    <>
+      <div className="eyebrow">Legal</div>
+      <h1 className="h1">Privacy <b>Policy</b></h1>
+      <p className="mu">Last updated {c.termsUpdated}</p>
+      <p>This policy explains what personal information we collect when you use the Jekaplay app, why, and the choices you have. We follow the Nigeria Data Protection Act 2023.</p>
+
+      <Sec n="1" title="Who is responsible for your information">
+        <p><b>{P}</b> runs the app and looks after your information on it. <b>{c.restaurant.legalName || J}</b> uses your order details to prepare and serve your orders. Together we make sure your information is protected and used properly.</p>
+      </Sec>
+
+      <Sec n="2" title="What we collect">
+        <ul>
+          <li>Your WhatsApp number, which is how you log in and how we reach you about your orders.</li>
+          <li>Your PIN. It is stored only in a scrambled form, so nobody can read it.</li>
+          <li>Your name and birthday, only if you choose to give them.</li>
+          <li>Your orders, your chosen outlet, and your messaging choices.</li>
+          <li>Technical details such as your device, browser, IP address and login times, to keep the app secure.</li>
+          <li>Feedback or complaints you send us.</li>
+          <li>When online payment is available, whether a payment succeeded. Card details are handled by the payment provider and are not stored by us.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="3" title="Why we use it">
+        <ul>
+          <li>To create and secure your account and to take and prepare your orders. This is needed to provide the service.</li>
+          <li>To send service messages such as order updates and receipts.</li>
+          <li>To send offers and rewards, only if you agree. You can say no and still use the app.</li>
+          <li>To prevent fraud and misuse, keep the app safe, and improve our menu and service.</li>
+          <li>To meet legal, accounting and tax duties.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="4" title="Who we share it with">
+        <ul>
+          <li>{J} outlet staff, who see your name and order so they can prepare and hand over your food.</li>
+          <li>Service providers who help us run the app, such as hosting and database providers, messaging providers and, when it is switched on, the payment provider. They may only use your information to provide their service, and some may handle it outside Nigeria with appropriate safeguards.</li>
+          <li>Authorities, where the law requires it.</li>
+        </ul>
+        <p>We do not sell your personal information.</p>
+      </Sec>
+
+      <Sec n="5" title="How long we keep it">
+        <p>We keep your account information while your account is open. If you delete your account, we erase your name, number and birthday. We keep order and payment records, no longer linked to you, for as long as accounting and tax rules require.</p>
+      </Sec>
+
+      <Sec n="6" title="Your rights">
+        <ul>
+          <li>You can ask to see, correct or delete your information, object to how we use it, or withdraw your consent at any time.</li>
+          <li>You can delete your account yourself in the app: open the Account tab and choose “Delete my account”.</li>
+          <li>You can stop offers and rewards messages by replying STOP or by contacting us.</li>
+          <li>You can complain to the Nigeria Data Protection Commission if you think we have handled your information wrongly. We would like the chance to put things right first.</li>
+        </ul>
+      </Sec>
+
+      <Sec n="7" title="Keeping your information safe">
+        <p>Connections to the app are encrypted, PINs are stored in a protected form, and staff can only see what their job needs. No system is perfectly secure, so please keep your PIN private and tell us at once if you think your account has been misused.</p>
+      </Sec>
+
+      <Sec n="8" title="Children">
+        <p>The app is for people aged 18 and over, or younger people using it with a parent or guardian’s permission. If you believe a child has given us information without permission, contact us and we will delete it.</p>
+      </Sec>
+
+      <Sec n="9" title="Changes to this policy">
+        <p>We may update this policy. The “last updated” date will change and we will show important changes in the app.</p>
+      </Sec>
+
+      <Sec n="10" title="Contact us">
+        <p>For any question or request about your information, use the <a href="#/contact">Contact us</a> page.</p>
       </Sec>
     </>
   );
@@ -199,9 +275,9 @@ export function LegalPage({ page, theme }) {
       <div className="legal">
         <button className="back" onClick={close}><ArrowLeft size={16} /> Back</button>
         <img className="legal-logo" src={theme === 'light' ? '/jekaplay-wordmark-black.png' : '/jekaplay-wordmark-green.png'} alt="Jekaplay" />
-        {page === 'terms' ? <Terms /> : <Contact />}
+        {page === 'terms' ? <Terms /> : page === 'privacy' ? <Privacy /> : <Contact />}
         <div className="legal-switch">
-          {page === 'terms' ? <a href="#/contact">Contact us</a> : <a href="#/terms">Terms &amp; Conditions</a>}
+          {page === 'contact' ? <a href="#/terms">Terms &amp; Conditions</a> : <a href="#/contact">Contact us</a>}
         </div>
       </div>
     </div>
