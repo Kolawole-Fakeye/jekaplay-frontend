@@ -128,3 +128,41 @@ a.chip.on { color: var(--on); }
 .contact-line { display: flex; gap: 14px; align-items: center; padding: 12px 0; border-top: 1px solid var(--bd); color: var(--tx); text-decoration: none; }
 .contact-line svg { color: var(--acc); flex: none; }
 .legal-switch { text-align: center; margin-top: 24px; }
+
+/* ---- welcome: the big first impression ---- */
+.welcome { position: relative; min-height: 100vh; display: grid; align-content: center; gap: 14px; max-width: 440px; margin: 0 auto; padding: 28px 22px 20px; text-align: center; overflow: hidden; }
+.welcome .glow { position: absolute; width: 520px; height: 520px; left: 50%; top: -140px; transform: translateX(-50%); background: radial-gradient(circle, color-mix(in srgb, var(--pri) 55%, transparent), transparent 65%); z-index: -1; pointer-events: none; }
+.w-logo { width: min(340px, 86%); margin: 0 auto; }
+.sticker { justify-self: center; background: #fff; color: #006b3c; font-weight: 800; font-size: 14px; line-height: 1.15; padding: 10px 16px; border-radius: 18px; transform: rotate(-4deg); box-shadow: var(--shadow); animation: float 3s ease-in-out infinite; }
+@keyframes float { 50% { transform: rotate(-4deg) translateY(-6px); } }
+.w-h1 { font-size: 46px; font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+.w-h1 b { color: var(--acc); }
+.btn.big { padding: 20px; font-size: 18px; box-shadow: 0 12px 30px color-mix(in srgb, var(--pri) 45%, transparent); }
+.toggle { display: grid; grid-template-columns: 1fr 1fr; background: var(--s1); border: 1px solid var(--bd); border-radius: 999px; padding: 4px; }
+.toggle button { border: 0; background: none; border-radius: 999px; padding: 12px; font-weight: 800; color: var(--mu); }
+.toggle button.on { background: var(--pri); color: var(--on); }
+.small { font-size: 12px; }
+.link.inline { padding: 0; display: inline; }
+.link.danger, .btn.danger { color: var(--danger); }
+.btn.danger { background: var(--danger); color: #fff; margin-top: 12px; }
+.badge.warn { background: var(--warn); color: #000; }
+
+/* ---- kitchen board ---- */
+.group { font-size: 15px; font-weight: 800; margin: 18px 0 6px; display: flex; gap: 8px; align-items: center; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mu); }
+.card.order { border-left: 6px solid var(--pri); }
+.card.order.late { border-left-color: var(--warn); }
+.onum { font-size: 24px; }
+.items { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 4px; font-size: 17px; }
+.note { background: var(--s2); border-radius: 12px; padding: 8px 12px; margin: 6px 0; font-weight: 600; }
+.btn.act { margin-top: 10px; padding: 20px; font-size: 18px; }
+.card.ready { border-color: var(--acc); box-shadow: 0 0 0 2px color-mix(in srgb, var(--acc) 40%, transparent); }
+.reorder { width: 100%; display: flex; align-items: center; gap: 14px; text-align: left; background: color-mix(in srgb, var(--pri) 22%, var(--s1)); border: 1px solid var(--pri); border-radius: 24px; padding: 16px; margin: 6px 0 12px; }
+.reorder svg { color: var(--acc); flex: none; }
+.links-card { display: grid; gap: 0; padding: 4px 16px; }
+.links-card a { color: var(--tx); text-decoration: none; font-weight: 700; padding: 14px 0; border-bottom: 1px solid var(--bd); }
+.links-card a:last-child { border: 0; }
+.bigpin { font-size: 64px; font-weight: 800; letter-spacing: 0.25em; text-align: center; color: var(--acc); margin: 12px 0; }
+.center-sheet { text-align: center; }
+
+/* ---- staff bottom bar: big thumb buttons ---- */
+.staffnav button { padding: 12px 6px; font-size: 13px; gap: 4px; min-height: 68px; }
