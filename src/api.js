@@ -84,6 +84,11 @@ export async function login(phone, pin) {
   const { res, data } = await raw('/api/auth/login', { method: 'POST', body: { phone, pin }, auth: false });
   if (!res.ok) throw new ApiError(data?.error || 'Login failed. Please try again.', res.status);
   setSession(data);
+  try {
+    localStorage.setItem('jekaplay_phone', phone);
+  } catch {
+    /* ignore */
+  }
   return data;
 }
 
