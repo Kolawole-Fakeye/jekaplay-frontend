@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ShoppingBag, ReceiptText, LogOut, Sun, Moon, ClipboardList, Users } from 'lucide-react';
+import { ShoppingBag, ReceiptText, LogOut, Sun, Moon, ClipboardList, Users, UserCog, Package, BarChart3, MoreHorizontal } from 'lucide-react';
 import { api, getSession, onSession, logout } from './api.js';
 import { Auth, SetPin } from './Login.jsx';
 import { LegalPage } from './Legal.jsx';
@@ -8,6 +8,9 @@ import TakeOrder from './TakeOrder.jsx';
 import MySales from './MySales.jsx';
 import Board from './Board.jsx';
 import StaffCustomers from './StaffCustomers.jsx';
+import Team from './Team.jsx';
+import Stock from './Stock.jsx';
+import Reports from './Reports.jsx';
 
 const ROLE_LABEL = { owner: 'Overall admin', admin: 'Admin', supervisor: 'Supervisor', staff: 'Staff' };
 
@@ -53,12 +56,12 @@ function Main() {
   const branch = branches.find((b) => b.id === branchId);
   const logo = theme === 'light' ? '/jekaplay-wordmark-black.png' : '/jekaplay-wordmark-green.png';
   const canHelp = ['owner', 'admin', 'supervisor'].includes(me.role);
-  const tabs = [
-    ['board', 'Orders', ClipboardList],
-    ['order', 'New order', ShoppingBag],
-    ['sales', 'My sales', ReceiptText],
-    ...(canHelp ? [['customers', 'Customers', Users]] : []),
-  ];
+  const isMgr = canHelp;
+  const isAdmin = ['owner', 'admin'].includes(me.role);
+  const moreTabs = ['sales', 'customers', 'team'];
+  const tabs = isMgr
+    ? [['board', 'Orders', ClipboardList], ['order', 'New order', ShoppingBag], ['stock', 'Stock', Package], ['reports', 'Reports', BarChart3], ['more', 'More', MoreHorizontal]]
+    : [['board', 'Orders', ClipboardList], ['order', 'New order', ShoppingBag], ['sales', 'My sales', ReceiptText]];
 
   return (
     <div className="app">
@@ -78,12 +81,28 @@ function Main() {
       </header>
       <div className="mu" style={{ marginBottom: 4 }}>{me.full_name} · {ROLE_LABEL[me.role] || me.role}</div>
 
-      {!branch ? (
+      {tab === 'team' ? (
+        <Team me={me} />
+      ) : tab === 'more' ? (
+        <div>
+          <div className="eyebrow">More</div>
+          <h1 className="h1">Your <b>tools</b></h1>
+          {[['sales', 'My sales', 'Your last three sales', ReceiptText, true], ['customers', 'Customers', 'Find a customer or reset a PIN', Users, true], ['team', 'Team', 'Add staff, place them at outlets', UserCog, isAdmin]]
+            .filter((x) => x[4])
+            .map(([id, title, sub, Icon]) => (
+              <button key={id} className="outlet" onClick={() => setTab(id)}><Icon size={22} /><span><b>{title}</b><div className="mu">{sub}</div></span></button>
+            ))}
+        </div>
+      ) : !branch ? (
         <div className="card center">You are not placed at an outlet yet. Ask the overall admin to place you.</div>
       ) : tab === 'board' ? (
         <Board branch={branch} role={me.role} onToast={setToast} />
       ) : tab === 'order' ? (
         <TakeOrder branch={branch} onToast={setToast} />
+      ) : tab === 'stock' ? (
+        <Stock branch={branch} role={me.role} onToast={setToast} />
+      ) : tab === 'reports' ? (
+        <Reports branch={branch} onGo={setTab} />
       ) : tab === 'sales' ? (
         <MySales />
       ) : (
@@ -93,7 +112,7 @@ function Main() {
       <nav className="nav staffnav">
         <div>
           {tabs.map(([id, label, Icon]) => (
-            <button key={id} className={tab === id ? 'on' : ''} onClick={() => setTab(id)}><Icon size={24} />{label}</button>
+            <button key={id} className={tab === id || (id === 'more' && moreTabs.includes(tab)) ? 'on' : ''} onClick={() => setTab(id)}><Icon size={24} />{label}</button>
           ))}
         </div>
       </nav>
