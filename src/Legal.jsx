@@ -1,8 +1,8 @@
 import { ArrowLeft, Phone, Mail, MapPin, Clock, AtSign } from 'lucide-react';
 import { company as c } from './config.js';
 
-const P = c.platform.name;
 const J = c.restaurant.name;
+const owner = c.restaurant.legalName || J;
 
 export function LegalLinks() {
   return (
@@ -30,8 +30,7 @@ function Terms() {
 
       <Sec n="1" title="Who we are">
         <ul>
-          <li>This ordering app (the “App”) is owned and operated by <b>{P}</b>{c.platform.registration ? ` (${c.platform.registration})` : ''} (“{P}”, “we”, “us”). {P} is the primary company responsible for the App itself.</li>
-          <li>The food, drinks and outlets you order from are run by <b>{c.restaurant.legalName || J}</b> (“{J}”). {J} is responsible for the food and for your orders, as set out in section 3.</li>
+          <li>This ordering app (the “App”) is owned and run by <b>{owner}</b> (“{J}”, “we”, “us”). The food, drinks and outlets you order from are also run by {J}.</li>
           <li>By creating an account or placing an order you agree to these Terms. If you do not agree, please do not use the App.</li>
         </ul>
       </Sec>
@@ -46,22 +45,16 @@ function Terms() {
         </ul>
       </Sec>
 
-      <Sec n="3" title="Who is responsible for what">
-        <p><b>{J} is responsible for:</b></p>
+      <Sec n="3" title="What we are responsible for">
         <ul>
           <li>Preparing the food and drinks, and their quality, freshness and safety.</li>
           <li>The menu, prices, availability, offers, rewards and vouchers.</li>
-          <li>Accepting, preparing and handing over your order at its outlets.</li>
+          <li>Accepting, preparing and handing over your order at our outlets, and the conduct of our staff.</li>
           <li>Cancellations, replacements, refunds and complaints about your order.</li>
-          <li>Allergen information, and the conduct of its staff and outlets.</li>
+          <li>Allergen information.</li>
+          <li>Running and securing the App, protecting your account and personal information, and helping with login, PIN and technical problems.</li>
         </ul>
-        <p><b>{P} is responsible for:</b></p>
-        <ul>
-          <li>Running and securing the App, and protecting your account and personal information.</li>
-          <li>Login and PIN support, and technical help with the App.</li>
-          <li>Passing your order to {J} correctly.</li>
-        </ul>
-        <p>{P} does not prepare or sell food and is not responsible for the food, the outlets or {J}’s decisions. If there is a problem with an order, contact {J} first using the <a href="#/contact">Contact us</a> page.</p>
+        <p>If there is a problem with an order or the App, contact us using the <a href="#/contact">Contact us</a> page.</p>
       </Sec>
 
       <Sec n="4" title="Placing orders">
@@ -110,7 +103,7 @@ function Terms() {
 
       <Sec n="10" title="Your information">
         <ul>
-          <li>{P} and {J} use your name, WhatsApp number, order history and preferences to run your account, process orders, send receipts, provide rewards, improve our service and prevent fraud. Your PIN is stored in a protected form that we cannot read.</li>
+          <li>{J} uses your name, WhatsApp number, order history and preferences to run your account, process orders, send receipts, provide rewards, improve our service and prevent fraud. Your PIN is stored in a protected form that we cannot read.</li>
           <li>We handle personal information in line with the Nigeria Data Protection Act 2023. We do not sell your personal information. Our <a href="#/privacy">Privacy Policy</a> explains this in full.</li>
           <li>You can ask to see, correct or delete your information, or withdraw your consent, at any time through the <a href="#/contact">Contact us</a> page. We may need to keep some records where the law requires it.</li>
         </ul>
@@ -121,7 +114,7 @@ function Terms() {
       </Sec>
 
       <Sec n="12" title="Ownership">
-        <p>The App’s software and design belong to {P}. The {J} name, logo and menu belong to {J}. Please do not copy them without permission.</p>
+        <p>The App and its software, design, name, logo and menu belong to, or are licensed to, {J}. Please do not copy them without permission.</p>
       </Sec>
 
       <Sec n="13" title="Availability of the App">
@@ -131,8 +124,8 @@ function Terms() {
       <Sec n="14" title="Liability">
         <ul>
           <li>Nothing in these Terms limits any liability that cannot be limited by law, including your statutory consumer rights.</li>
-          <li>{J} is responsible to you for the food and for your orders, as described in section 3.</li>
-          <li>{P} is not liable for the food, the outlets or {J}’s decisions. Neither of us is responsible for loss caused by events beyond our reasonable control, such as network failures or power cuts, or for indirect losses.</li>
+          <li>{J} is responsible to you for the food, your orders and the App, as described in section 3.</li>
+          <li>{J} is not responsible for loss caused by events beyond its reasonable control, such as network failures or power cuts, or for indirect losses.</li>
         </ul>
       </Sec>
 
@@ -145,7 +138,7 @@ function Terms() {
       </Sec>
 
       <Sec n="17" title="Contact us">
-        <p>See the <a href="#/contact">Contact us</a> page for how to reach {J} about your order and {P} about the App or your information.</p>
+        <p>See the <a href="#/contact">Contact us</a> page for how to reach {J} about your order, the App or your information.</p>
       </Sec>
     </>
   );
@@ -161,7 +154,7 @@ function Privacy() {
       <p>This policy explains what personal information we collect when you use the Jekaplay app, why, and the choices you have. We follow the Nigeria Data Protection Act 2023.</p>
 
       <Sec n="1" title="Who is responsible for your information">
-        <p><b>{P}</b> runs the app and looks after your information on it. <b>{c.restaurant.legalName || J}</b> uses your order details to prepare and serve your orders. Together we make sure your information is protected and used properly.</p>
+        <p><b>{owner}</b> (“{J}”) runs the app and is responsible for your information. We make sure it is protected and used properly.</p>
       </Sec>
 
       <Sec n="2" title="What we collect">
@@ -234,7 +227,6 @@ function Line({ icon: Icon, label, href, children }) {
 
 function Contact() {
   const r = c.restaurant;
-  const p = c.platform;
   return (
     <>
       <div className="eyebrow">We are here to help</div>
@@ -242,7 +234,7 @@ function Contact() {
 
       <div className="card">
         <h2>{J}: orders, food and outlets</h2>
-        <p className="mu">For anything about your order, your meal, refunds or an outlet.</p>
+        <p className="mu">For anything about your order, your meal, refunds, the app, your PIN or your information.</p>
         <Line icon={Phone} label="Call" href={`tel:${r.phoneIntl}`}>{r.phone}</Line>
         {r.email && <Line icon={Mail} label="Email" href={`mailto:${r.email}`}>{r.email}</Line>}
         {r.hours && <Line icon={Clock} label="Hours">{r.hours}</Line>}
@@ -252,15 +244,6 @@ function Contact() {
       <div className="card">
         <h2>Our outlets</h2>
         {c.outlets.map((o) => <Line key={o.name} icon={MapPin} label={'Jekaplay ' + o.name}>{o.address || 'Ask at the outlet or call us'}</Line>)}
-      </div>
-
-      <div className="card">
-        <h2>{P}: the app and your information</h2>
-        <p className="mu">For login or PIN help, problems with the app, or to see, correct or delete your information.</p>
-        {p.email && <Line icon={Mail} label="Email" href={`mailto:${p.email}`}>{p.email}</Line>}
-        {p.phone && <Line icon={Phone} label="Call or WhatsApp" href={`tel:${p.phone}`}>{p.phone}</Line>}
-        {p.address && <Line icon={MapPin} label="Address">{p.address}</Line>}
-        {!p.email && !p.phone && <p>Please speak to staff at any {J} outlet and they will pass your request to us.</p>}
       </div>
 
       <p className="mu">Reporting a problem with an order? Tell {J} {c.reportWindow}, and have your order number ready.</p>
