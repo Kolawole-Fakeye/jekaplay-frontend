@@ -1,8 +1,66 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Minus, Plus, ShoppingBag, X, Search, UserPlus } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Minus, Plus, ShoppingBag, X, Search, UserPlus, Printer } from 'lucide-react';
 import { api, naira } from './api.js';
 
 const TYPES = [['eat_in', 'Eat-in'], ['pickup', 'Pick-up'], ['delivery', 'Delivery']];
+
+// Paper roll width in millimetres. Change to 58 if the outlet printer uses 58mm paper.
+const SLIP_MM = 80;
+
+// Only the slip prints. Everything else on the page is hidden while printing.
+const SLIP_CSS = `
+#slip-print{display:none}
+@media print{
+  @page{size:${SLIP_MM}mm auto;margin:0}
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  body>*:not(#slip-print){display:none!important}
+  #slip-print{display:block;width:${SLIP_MM - 8}mm;margin:0 auto;padding:4mm 0 6mm;color:#000;background:#fff;font:12px/1.35 Arial,Helvetica,sans-serif}
+  #slip-print .c{text-align:center}
+  #slip-print .brand{font-size:20px;font-weight:800;letter-spacing:.5px}
+  #slip-print .big{font-size:34px;font-weight:800;line-height:1.1}
+  #slip-print .code{font-size:26px;font-weight:800;letter-spacing:4px}
+  #slip-print .r{display:flex;justify-content:space-between;gap:6px}
+  #slip-print .r span:last-child{white-space:nowrap}
+  #slip-print hr{border:0;border-top:1px dashed #000;margin:6px 0}
+  #slip-print .tot{font-size:15px;font-weight:800}
+  #slip-print .sm{font-size:10.5px}
+}`;
+
+const fmtTime = (d) => d.toLocaleString('en-NG', { timeZone: 'Africa/Lagos', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+
+function Slip({ s }) {
+  return createPortal(
+    <div id="slip-print">
+      <style>{SLIP_CSS}</style>
+      <div className="c brand">JEKAPLAY</div>
+      <div className="c sm">the Streets’ Food HQ</div>
+      <div className="c">{s.branch.replace('Jekaplay ', '')}</div>
+      <hr />
+      <div className="c sm">ORDER NUMBER</div>
+      <div className="c big">#{s.no}</div>
+      {s.code && (<>
+        <div className="c sm" style={{ marginTop: 6 }}>PICK-UP CODE</div>
+        <div className="c code">{s.code}</div>
+      </>)}
+      <hr />
+      <div className="sm">{fmtTime(s.at)}</div>
+      <div className="sm">{TYPES.find((t) => t[0] === s.type)?.[1]}{s.customer ? ' · ' + s.customer : ''}</div>
+      <hr />
+      {s.lines.map((l, i) => (
+        <div className="r" key={i}><span>{l.n}× {l.name}</span><span>{naira(l.total)}</span></div>
+      ))}
+      <hr />
+      {s.fee > 0 && <div className="r"><span>Delivery</span><span>{naira(s.fee)}</span></div>}
+      <div className="r tot"><span>TOTAL</span><span>{naira(s.total)}</span></div>
+      {s.notes && (<><hr /><div className="sm">Note: {s.notes}</div></>)}
+      <hr />
+      <div className="c sm">Hand this slip to the service counter to collect your meal.</div>
+      <div className="c sm" style={{ marginTop: 4 }}>Thank you!</div>
+    </div>,
+    document.body
+  );
+}
 
 export default function TakeOrder({ branch, onToast }) {
   const [menu, setMenu] = useState(null);
@@ -21,6 +79,7 @@ export default function TakeOrder({ branch, onToast }) {
   const [notes, setNotes] = useState('');
   const [busy, setBusy] = useState(false);
   const [sheetError, setSheetError] = useState('');
+  const [slip, setSlip] = useState(null);
 
   useEffect(() => {
     setMenu(null); setCart({}); setError(''); setZones([]); setZone('');
@@ -74,6 +133,18 @@ export default function TakeOrder({ branch, onToast }) {
           notes: notes || null,
           items: lines.map((l) => ({ menu_item_id: l.id, quantity: l.n })),
         },
+      });
+      setSlip({
+        no: d.order.order_no,
+        code: d.order.pickup_code || null,
+        at: new Date(),
+        branch: branch.name,
+        type,
+        customer: customer?.full_name || null,
+        notes: notes || null,
+        lines: lines.map((l) => ({ name: l.name, n: l.n, total: l.price_kobo * l.n })),
+        fee,
+        total: subtotal + fee,
       });
       onToast('Order #' + d.order.order_no + ' recorded');
       setCart({}); setOpen(false); setCustomer(null); setNotes(''); setAddress('');
@@ -168,6 +239,18 @@ export default function TakeOrder({ branch, onToast }) {
           </div>
         </div>
       )}
+
+      {slip && (<>
+        <Slip s={slip} />
+        <div className="scrim" onClick={() => setSlip(null)}>
+          <div className="sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="row"><h2>Order #{slip.no} recorded</h2><button className="icon" onClick={() => setSlip(null)} aria-label="Close"><X size={18} /></button></div>
+            <div className="row total"><span>Total</span><span>{naira(slip.total)}</span></div>
+            <button className="btn" onClick={() => window.print()}><Printer size={16} style={{ verticalAlign: -3 }} /> Print slip</button>
+            <button className="btn ghost" style={{ marginTop: 10 }} onClick={() => setSlip(null)}>Done, next order</button>
+          </div>
+        </div>
+      </>)}
     </div>
   );
 }
