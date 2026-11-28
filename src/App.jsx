@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ShoppingBag, ReceiptText, LogOut, Sun, Moon, ClipboardList, Users, UserCog, Package, BarChart3, MoreHorizontal } from 'lucide-react';
+import { ShoppingBag, ReceiptText, LogOut, Sun, Moon, ClipboardList, Users, UserCog, Package, BarChart3, MoreHorizontal, Utensils } from 'lucide-react';
 import { api, getSession, onSession, logout } from './api.js';
 import { Auth, SetPin } from './Login.jsx';
 import { LegalPage } from './Legal.jsx';
@@ -11,6 +11,7 @@ import StaffCustomers from './StaffCustomers.jsx';
 import Team from './Team.jsx';
 import Stock from './Stock.jsx';
 import Reports from './Reports.jsx';
+import Menu from './Menu.jsx';
 
 const ROLE_LABEL = { owner: 'Overall admin', admin: 'Admin', supervisor: 'Supervisor', staff: 'Staff' };
 
@@ -58,7 +59,8 @@ function Main() {
   const canHelp = ['owner', 'admin', 'supervisor'].includes(me.role);
   const isMgr = canHelp;
   const isAdmin = ['owner', 'admin'].includes(me.role);
-  const moreTabs = ['sales', 'customers', 'team'];
+  const isOwner = me.role === 'owner';
+  const moreTabs = ['sales', 'customers', 'team', 'menu'];
   const tabs = isMgr
     ? [['board', 'Orders', ClipboardList], ['order', 'New order', ShoppingBag], ['stock', 'Stock', Package], ['reports', 'Reports', BarChart3], ['more', 'More', MoreHorizontal]]
     : [['board', 'Orders', ClipboardList], ['order', 'New order', ShoppingBag], ['sales', 'My sales', ReceiptText]];
@@ -83,11 +85,13 @@ function Main() {
 
       {tab === 'team' ? (
         <Team me={me} />
+      ) : tab === 'menu' && isOwner ? (
+        <Menu onToast={setToast} />
       ) : tab === 'more' ? (
         <div>
           <div className="eyebrow">More</div>
           <h1 className="h1">Your <b>tools</b></h1>
-          {[['sales', 'My sales', 'Your last three sales', ReceiptText, true], ['customers', 'Customers', 'Find a customer or reset a PIN', Users, true], ['team', 'Team', 'Add staff, place them at outlets', UserCog, isAdmin]]
+          {[['sales', 'My sales', 'Your last three sales', ReceiptText, true], ['customers', 'Customers', 'Find a customer or reset a PIN', Users, true], ['team', 'Team', 'Add staff, place them at outlets', UserCog, isAdmin], ['menu', 'Menu', 'Prices, dishes on or off, recipe amounts', Utensils, isOwner]]
             .filter((x) => x[4])
             .map(([id, title, sub, Icon]) => (
               <button key={id} className="outlet" onClick={() => setTab(id)}><Icon size={22} /><span><b>{title}</b><div className="mu">{sub}</div></span></button>
