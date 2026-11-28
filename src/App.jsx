@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ShoppingBag, ReceiptText, LogOut, Sun, Moon, ClipboardList, Users, UserCog, Package, BarChart3, MoreHorizontal, Utensils } from 'lucide-react';
+import { ShoppingBag, ReceiptText, LogOut, Sun, Moon, ClipboardList, Users, UserCog, Package, BarChart3, MoreHorizontal, Utensils, PackageCheck } from 'lucide-react';
 import { api, getSession, onSession, logout } from './api.js';
 import { Auth, SetPin } from './Login.jsx';
 import { LegalPage } from './Legal.jsx';
@@ -12,6 +12,7 @@ import Team from './Team.jsx';
 import Stock from './Stock.jsx';
 import Reports from './Reports.jsx';
 import Menu from './Menu.jsx';
+import Collect from './Collect.jsx';
 
 const ROLE_LABEL = { owner: 'Overall admin', admin: 'Admin', supervisor: 'Supervisor', staff: 'Staff' };
 
@@ -62,8 +63,8 @@ function Main() {
   const isOwner = me.role === 'owner';
   const moreTabs = ['sales', 'customers', 'team', 'menu'];
   const tabs = isMgr
-    ? [['board', 'Orders', ClipboardList], ['order', 'New order', ShoppingBag], ['stock', 'Stock', Package], ['reports', 'Reports', BarChart3], ['more', 'More', MoreHorizontal]]
-    : [['board', 'Orders', ClipboardList], ['order', 'New order', ShoppingBag], ['sales', 'My sales', ReceiptText]];
+    ? [['board', 'Orders', ClipboardList], ['order', 'New order', ShoppingBag], ['collect', 'Collect', PackageCheck], ['stock', 'Stock', Package], ['reports', 'Reports', BarChart3], ['more', 'More', MoreHorizontal]]
+    : [['board', 'Orders', ClipboardList], ['order', 'New order', ShoppingBag], ['collect', 'Collect', PackageCheck], ['sales', 'My sales', ReceiptText]];
 
   return (
     <div className="app">
@@ -103,6 +104,8 @@ function Main() {
         <Board branch={branch} role={me.role} onToast={setToast} />
       ) : tab === 'order' ? (
         <TakeOrder branch={branch} onToast={setToast} />
+      ) : tab === 'collect' ? (
+        <Collect branch={branch} onToast={setToast} />
       ) : tab === 'stock' ? (
         <Stock branch={branch} role={me.role} onToast={setToast} />
       ) : tab === 'reports' ? (
