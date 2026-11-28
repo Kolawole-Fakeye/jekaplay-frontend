@@ -10,6 +10,19 @@ const mask = (p) => { const d = p.replace(/\D/g, ''); return d.length >= 8 ? '0'
 const isRun = (p) => { const d = p.split('').map(Number); return d.every((x, i) => i === 0 || x - d[i - 1] === 1) || d.every((x, i) => i === 0 || d[i - 1] - x === 1); };
 const weak = (p) => /^(\d)\1+$/.test(p) || ['1234', '4321', '1212', '2580', '0852', '1004', '2000', '6969', '1122', '1313'].includes(p) || isRun(p);
 
+// Photo strip on the welcome screen: full width, trimmed a little top and bottom so both faces and both plates show.
+const HERO = {
+  width: '100%',
+  maxWidth: 480,
+  aspectRatio: '16 / 9',
+  objectFit: 'cover',
+  objectPosition: 'center 25%',
+  borderRadius: 18,
+  display: 'block',
+  margin: '4px auto 14px',
+  boxShadow: '0 10px 30px rgba(0,0,0,.35)',
+};
+
 function PinPad({ length, value, onChange, onDone, busy }) {
   function press(d) {
     if (busy) return;
@@ -42,6 +55,7 @@ export function Auth({ theme }) {
         <div className="glow" />
         <img className="w-logo" src={logoFor(theme)} alt="Jekaplay, the Streets’ Food HQ" />
         <div className="sticker">₦1,000 meal<br />+ free beef</div>
+        <img src="/hero-plates.webp" alt="Two friends sharing jollof rice with beef and chicken fried rice" style={HERO} />
         <h1 className="w-h1">Real street food.<br /><b>Zero queue.</b></h1>
         <p className="sub">Order from Unilag, LASU or Orile-Iganmu. Pay when you collect.</p>
         <button className="btn big" onClick={() => setView('signup')}>Order now</button>
